@@ -1,4 +1,4 @@
-## Welcome to GitHub Page
+## Welcome to GitHub Page 2
 
 You can use the [editor on GitHub](https://github.com/jimbowery/jimbowery.github.io/edit/main/index.md) to maintain and preview the content for your website in Markdown files.
 
