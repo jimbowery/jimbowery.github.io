@@ -28,7 +28,7 @@ twitter_username: jimbowery
 github_username:  jimbowery
 
 # Build settings
-theme: jekyll-theme-minimal
+theme: jekyll-theme-tactile
 plugins:
   - jekyll-feed
 
