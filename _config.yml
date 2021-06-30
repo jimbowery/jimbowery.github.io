@@ -22,7 +22,7 @@ title: Jim|Bowery
 email: jim@jimbowery.com
 description: >- # this means to ignore newlines until "baseurl:"
   Data Platform and Data Engineering
-baseurl: "" # the subpath of your site, e.g. /blog
+baseurl: "/blog" # the subpath of your site, e.g. /blog
 url: "http://jimbowery.com"
 twitter_username: jimbowery
 github_username:  jimbowery
