@@ -8,4 +8,4 @@ author: null
 show_tile: false
 ---
 
-Nullam et orci eu lorem consequat tincidunt vivamus et sagittis libero. Mauris aliquet magna magna sed nunc rhoncus pharetra. Pellentesque condimentum sem. In efficitur ligula tate urna. Maecenas laoreet massa vel lacinia pellentesque lorem ipsum dolor. Nullam et orci eu lorem consequat tincidunt. Vivamus et sagittis libero. Mauris aliquet magna magna sed nunc rhoncus amet pharetra et feugiat tempus.
+My name is Jim.  I'm a consultant working in Data.  That's Data Engineering, Data Warehousing, Data Lifecycle and platform design - mostly in the wonderful world of Microsoft Azure.  I also design and implement frameworks and harnesses to ensure the safe yet effective use of AI in the entire data development lifecycle.  You can't vibe data...don't make me tap the sign.
