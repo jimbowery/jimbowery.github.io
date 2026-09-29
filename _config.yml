@@ -1,6 +1,6 @@
 # site settings
 title: jimbowery
-subtitle: ---
+subtitle:
 email: jim@jimbowery.com
 description: when life gives you oranges
 baseurl: "/forty-jekyll-theme" # the subpath of your site, e.g. /blog
