@@ -1,6 +1,7 @@
 # site settings
 title: jimbowery
 subtitle:
+favicon: /assets/images/favicon.ico
 email: jim@jimbowery.com
 description: when life gives you oranges
 baseurl: "/forty-jekyll-theme" # the subpath of your site, e.g. /blog
