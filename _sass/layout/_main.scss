@@ -24,3 +24,13 @@
 			border-bottom: solid 1px _palette(border);
 		}
 	}
+
+	.post-inner {
+		margin-left: auto;
+		margin-right: auto;
+		width: 50%;
+
+		@include breakpoint(small) {
+			width: 90%;
+		}
+	}
