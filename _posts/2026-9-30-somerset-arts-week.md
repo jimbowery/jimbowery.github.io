@@ -14,7 +14,7 @@ image: assets/images/SAW_Rabbit.jpeg
     </div>
 </div>
 
-I swear, this place was made for black & white photography.
+Art in beautiful locations.
 
 <div class="box alt">
     <div class="row 50% uniform">
