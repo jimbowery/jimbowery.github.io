@@ -18,10 +18,9 @@ I swear, this place was made for black & white photography.
 
 <div class="box alt">
     <div class="row 50% uniform">
-        <div class="4u"><span class="image fit"><img src="{% link assets/images/SAW_Doll.jpeg %}" alt="" /></span></div>
+        <div class="4u"><span class="image fit"><img src="{% link assets/images/SAW_Orchard.jpeg %}" alt="" /></span></div>
         <div class="4u"><span class="image fit"><img src="{% link assets/images/SAW_Photo.jpeg %}" alt="" /></span></div>
-        <div class="4u"><span class="image fit"><img src="{% link assets/images/SAW_Bamboo2.jpeg %}" alt="" /></span></div>
-        <div class="4u$"><span class="image fit"><img src="{% link assets/images/SAW_Orchard.jpeg %}" alt="" /></span></div>
+        <div class="4u$"><span class="image fit"><img src="{% link assets/images/SAW_Bamboo2.jpeg %}" alt="" /></span></div>
     </div>
 </div>
 
