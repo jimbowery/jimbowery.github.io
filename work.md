@@ -2,7 +2,7 @@
 layout: post
 title: Work
 description: Avoiding the consultancy sharks
-image: assets/images/pic11.jpeg
+image: assets/images/desktop.jpeg
 nav-menu: true
 ---
 
