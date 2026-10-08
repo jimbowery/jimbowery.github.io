@@ -1,0 +1,559 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Defritter</title>
+<meta name="description" content="Click for a random alternative to doomscrolling.">
+<style>
+  :root {
+    --bg: #f6f3ee; --card: #ffffff; --text: #1f1d1a; --muted: #6b665e;
+    --accent: #c2410c; --accent-text: #ffffff; --link: #9a3412; --border: #e4ded3;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1a1816; --card: #262320; --text: #f2eee8; --muted: #a39d93;
+      --accent: #f97316; --accent-text: #1a1816; --link: #fdba74; --border: #3a3631;
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body {
+    background: var(--bg); color: var(--text);
+    font: 18px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    display: flex; align-items: center; justify-content: center; padding: 16px;
+  }
+  main { width: 100%; max-width: 560px; text-align: center; }
+  h1 { font-size: 2rem; margin: 0 0 .25rem; letter-spacing: -.02em; }
+  .tagline { color: var(--muted); margin: 0 0 2rem; }
+  .card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+    padding: 2rem 1.5rem; min-height: 9rem; margin-bottom: 1.5rem;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .num { color: var(--muted); font-size: .85rem; margin-bottom: .5rem; }
+  .idea { font-size: 1.35rem; line-height: 1.4; }
+  .idea a { color: var(--link); text-underline-offset: 3px; }
+  .placeholder { color: var(--muted); }
+  button {
+    font: inherit; font-weight: 600; cursor: pointer;
+    background: var(--accent); color: var(--accent-text);
+    border: 0; border-radius: 999px; padding: .85rem 2rem;
+  }
+  button:hover { filter: brightness(1.08); }
+  button:focus-visible { outline: 3px solid var(--link); outline-offset: 3px; }
+  footer { margin-top: 2rem; font-size: .8rem; color: var(--muted); }
+  footer a { color: inherit; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Defritter</h1>
+  <p class="tagline">Put the phone down. Do this instead.</p>
+  <div class="card" aria-live="polite">
+    <div class="num" id="num"></div>
+    <div class="idea" id="idea"><span class="placeholder">Press the button for something better than scrolling.</span></div>
+  </div>
+  <button id="go" type="button">Give me something to do</button>
+  <footer>Ideas from Wirecutter’s
+    <a href="https://www.nytimes.com/wirecutter/reviews/advice-doomscrolling-alternatives/" target="_blank" rel="noopener">alternatives to doomscrolling</a>.
+  </footer>
+</main>
+<script>
+// [number, html] pairs, generated from doomscrolling_alternatives in jimbowery/defritter.
+const IDEAS = [
+[
+1,
+"<a href=\"https://www.nytimes.com/interactive/2026/books/what-to-read-next.html\" target=\"_blank\" rel=\"noopener\">Read<\/a> a book."
+],
+[
+2,
+"<a href=\"https://www.nytimes.com/2026/09/05/books/review/harlan-coben-plot-twist-writing-guide.html\" target=\"_blank\" rel=\"noopener\">Write<\/a> a book."
+],
+[
+3,
+"<a href=\"https://www.nytimes.com/spotlight/10-minute-challenge\" target=\"_blank\" rel=\"noopener\">Stare<\/a> at some art."
+],
+[
+4,
+"Make some art. (Use <a href=\"https://www.nytimes.com/wirecutter/out/affiliate/v1/Amazon/64429/205748/4/link/e8a8ceaadd55447f966d7da7844c01ed/1?dp=eyJyZWYiOiJhcHAucmFpbmRyb3AuaW8vIn0\" target=\"_blank\" rel=\"noopener\">watercolors<\/a> or <a href=\"https://www.nytimes.com/wirecutter/out/affiliate/v1/Amazon/10279/29035/4/link/e8a8ceaadd55447f966d7da7844c01ed/?dp=eyJyZWYiOiJhcHAucmFpbmRyb3AuaW8vIn0\" target=\"_blank\" rel=\"noopener\">colored pencils<\/a>, or make a collage. Or, experiment with something entirely different, like making <a href=\"https://www.nytimes.com/interactive/2026/06/25/well/summer-challenge-land-earth-art.html\" target=\"_blank\" rel=\"noopener\">land art<\/a>.)"
+],
+[
+5,
+"<a href=\"https://www.nytimes.com/wirecutter/reviews/advice-doomscrolling-alternatives/\" target=\"_blank\" rel=\"noopener\">Cook<\/a> or <a href=\"https://www.nytimes.com/2024/03/18/dining/how-to-bake-easy-beginner-recipes.html\" target=\"_blank\" rel=\"noopener\">bake<\/a> something you love. Simmer some <a href=\"https://cooking.nytimes.com/recipes/1015178-marcella-hazans-tomato-sauce\" target=\"_blank\" rel=\"noopener\">tomato sauce<\/a> or whip up a <a href=\"https://cooking.nytimes.com/article/how-to-bake-a-cake\" target=\"_blank\" rel=\"noopener\">cake<\/a>. Or, make <a href=\"https://www.nytimes.com/wirecutter/reviews/best-boxed-brownie-mix/#the-best-boxed-brownie-mix\" target=\"_blank\" rel=\"noopener\">some boxed brownies<\/a> and top them with raspberry sorbet."
+],
+[
+6,
+"Crank out some <a href=\"https://www.nytimes.com/wirecutter/reviews/making-pasta-at-home/\" target=\"_blank\" rel=\"noopener\">homemade pasta<\/a>."
+],
+[
+7,
+"Churn some <a href=\"https://www.nytimes.com/wirecutter/reviews/best-ice-cream-maker/\" target=\"_blank\" rel=\"noopener\">ice cream<\/a>. Then, invent <a href=\"https://cooking.nytimes.com/article/master-ice-cream-flavor-recipe\" target=\"_blank\" rel=\"noopener\">your own ice cream flavor<\/a>!"
+],
+[
+8,
+"Research a <a href=\"https://cooking.nytimes.com/68861692-nyt-cooking/1640510-sam-siftons-suggestions\" target=\"_blank\" rel=\"noopener\">new-to-you recipe<\/a>."
+],
+[
+9,
+"Research a <a href=\"https://www.nytimes.com/spotlight/best-restaurants\" target=\"_blank\" rel=\"noopener\">new-to-you restaurant<\/a>. Next, plan a “crawl” of local restaurants, getting one appetizer at each location."
+],
+[
+10,
+"Go to a <a href=\"https://www.nytimes.com/wirecutter/guides/our-favorite-things-trader-joes/\" target=\"_blank\" rel=\"noopener\">grocery store<\/a> and find a food you’ve never eaten before."
+],
+[
+11,
+"Play a <a href=\"https://www.nytimes.com/wirecutter/reviews/best-solo-board-games/\" target=\"_blank\" rel=\"noopener\">solo board game<\/a>."
+],
+[
+12,
+"Play a <a href=\"https://www.nytimes.com/wirecutter/reviews/kubb-viking-game-review/\" target=\"_blank\" rel=\"noopener\">yard game<\/a>."
+],
+[
+13,
+"Play a <a href=\"https://www.nytimes.com/wirecutter/reviews/best-cozy-games/\" target=\"_blank\" rel=\"noopener\">cozy video game<\/a>."
+],
+[
+14,
+"Gather a group for a <a href=\"https://www.nytimes.com/wirecutter/reviews/board-games-we-love/\" target=\"_blank\" rel=\"noopener\">board game<\/a> or a <a href=\"https://www.nytimes.com/wirecutter/reviews/best-card-games/\" target=\"_blank\" rel=\"noopener\">card game<\/a>."
+],
+[
+15,
+"Sign up for a <a href=\"https://www.nytimes.com/wirecutter/reviews/best-mystery-box-game-subscriptions/\" target=\"_blank\" rel=\"noopener\">mystery-box game<\/a>. Then, secretly sign someone else up!"
+],
+[
+16,
+"Plan a <a href=\"https://www.nytimes.com/wirecutter/reviews/best-party-games/\" target=\"_blank\" rel=\"noopener\">game night<\/a>. (Even if you don’t think you’re a “<a href=\"https://www.nytimes.com/wirecutter/reviews/wirecutter-show-podcast-20251210-board-games/\" target=\"_blank\" rel=\"noopener\">game person<\/a>.”)"
+],
+[
+17,
+"Put together a <a href=\"https://www.nytimes.com/wirecutter/blog/jigsaw-puzzles-we-love/\" target=\"_blank\" rel=\"noopener\">puzzle<\/a>."
+],
+[
+18,
+"<a href=\"https://www.nytimes.com/wirecutter/blog/tips-to-store-and-display-puzzles/\" target=\"_blank\" rel=\"noopener\">Display<\/a> your completed puzzle."
+],
+[
+19,
+"Plan a <a href=\"https://www.nytimes.com/2025/08/16/science/puzzle-party-slocum.html\" target=\"_blank\" rel=\"noopener\">puzzle party<\/a>."
+],
+[
+20,
+"<a href=\"https://www.nytimes.com/wirecutter/reviews/dog-leash-training/\" target=\"_blank\" rel=\"noopener\">Take a dog for a walk<\/a>."
+],
+[
+21,
+"<a href=\"https://www.nytimes.com/wirecutter/reviews/westminster-dog-show-beauty-secrets/\" target=\"_blank\" rel=\"noopener\">Groom a dog<\/a>."
+],
+[
+22,
+"Teach a dog a trick."
+],
+[
+23,
+"Watch a dog sleep."
+],
+[
+24,
+"Befriend an emotionally needy dog."
+],
+[
+25,
+"Go for a <a href=\"https://www.nytimes.com/wirecutter/reviews/purrgola-cat-window-perch-review/\" target=\"_blank\" rel=\"noopener\">cat-spotting walk<\/a>."
+],
+[
+26,
+"Watch a cat sleep on something <a href=\"https://www.nytimes.com/wirecutter/reviews/desk-nest-cat-bed-review/\" target=\"_blank\" rel=\"noopener\">weird and uncomfortable<\/a> instead of a soft cat bed."
+],
+[
+27,
+"Teach a cat a trick. (That should keep you busy for a while!)"
+],
+[
+28,
+"Go for a <a href=\"https://www.nytimes.com/2025/05/30/well/step-goal-walking.html\" target=\"_blank\" rel=\"noopener\">walk<\/a>."
+],
+[
+29,
+"Go for a <a href=\"https://www.nytimes.com/article/how-to-start-running.html\" target=\"_blank\" rel=\"noopener\">run<\/a>."
+],
+[
+30,
+"Go for a <a href=\"https://www.nytimes.com/2025/02/27/well/move/run-walk-galloway-method.html\" target=\"_blank\" rel=\"noopener\">run-walk<\/a>."
+],
+[
+31,
+"Go for a <a href=\"https://www.nytimes.com/wirecutter/health-fitness/cycling/\" target=\"_blank\" rel=\"noopener\">bike ride<\/a>. (Do some <a href=\"https://www.nytimes.com/wirecutter/reviews/best-bike-repair-stand/\" target=\"_blank\" rel=\"noopener\">bike maintenance<\/a> first, if necessary: <a href=\"https://www.nytimes.com/wirecutter/guides/how-to-clean-lube-bike-chain/\" target=\"_blank\" rel=\"noopener\">Lube the chain<\/a>, <a href=\"https://www.nytimes.com/wirecutter/reviews/best-bike-pump/\" target=\"_blank\" rel=\"noopener\">inflate the tires<\/a>.)"
+],
+[
+32,
+"Practice <a href=\"https://www.nytimes.com/2025/06/16/well/move/yoga-poses-low-back-pain.html\" target=\"_blank\" rel=\"noopener\">yoga<\/a>."
+],
+[
+33,
+"Play tennis, <a href=\"https://www.nytimes.com/wirecutter/reviews/best-beach-umbrellas-chairs-and-accessories/#beach-games-and-toys\" target=\"_blank\" rel=\"noopener\">Kadima<\/a>, or <a href=\"https://www.nytimes.com/wirecutter/reviews/best-pickleball-paddles/\" target=\"_blank\" rel=\"noopener\">pickleball<\/a>."
+],
+[
+34,
+"Improve your stability (<a href=\"https://www.nytimes.com/interactive/2022/03/30/well/guided-meditations.html\" target=\"_blank\" rel=\"noopener\">mental<\/a> and <a href=\"https://www.nytimes.com/2025/02/22/well/move/balance-exercises-aging.html\" target=\"_blank\" rel=\"noopener\">physical<\/a>)."
+],
+[
+35,
+"Build up your <a href=\"https://www.nytimes.com/2024/07/18/well/move/foot-workout-exercises.html\" target=\"_blank\" rel=\"noopener\">toe mobility<\/a>."
+],
+[
+36,
+"Hold a <a href=\"https://www.nytimes.com/interactive/2025/07/29/well/move/plank-exercise-technique.html\" target=\"_blank\" rel=\"noopener\">plank<\/a> for as long as you can — even if it’s only a second. (You’ll get better with practice.)"
+],
+[
+37,
+"Challenge someone to a plank contest."
+],
+[
+38,
+"<a href=\"https://www.nytimes.com/newsletters/clean-everything\" target=\"_blank\" rel=\"noopener\">Clean everything<\/a>."
+],
+[
+39,
+"Organize your <a href=\"https://www.nytimes.com/2026/01/21/well/medicine-cabinet.html\" target=\"_blank\" rel=\"noopener\">medicine cabinet<\/a>."
+],
+[
+40,
+"Empty your junk drawer. Then fill it with <a href=\"https://www.nytimes.com/wirecutter/reviews/useful-junk-drawer-essentials/\" target=\"_blank\" rel=\"noopener\">actually useful stuff<\/a>."
+],
+[
+41,
+"<a href=\"https://www.nytimes.com/wirecutter/reviews/how-to-clean-plants/\" target=\"_blank\" rel=\"noopener\">Dust<\/a> your plants."
+],
+[
+42,
+"<a href=\"https://www.nytimes.com/wirecutter/reviews/best-paper-shredders/\" target=\"_blank\" rel=\"noopener\">Shred<\/a> junk mail."
+],
+[
+43,
+"Do some <a href=\"https://www.nytimes.com/2025/01/27/well/decluttering-small-projects.html\" target=\"_blank\" rel=\"noopener\">soft decluttering<\/a>."
+],
+[
+44,
+"Do a DIY project you’ve been avoiding. (May we suggest <a href=\"https://www.nytimes.com/wirecutter/reviews/advice-install-showerhead/\" target=\"_blank\" rel=\"noopener\">installing a new showerhead<\/a> or replacing a <a href=\"https://www.nytimes.com/wirecutter/reviews/advice-change-toilet-seat/\" target=\"_blank\" rel=\"noopener\">worn-out toilet seat<\/a>?)"
+],
+[
+45,
+"Check your <a href=\"https://www.nytimes.com/wirecutter/reviews/best-smart-smoke-alarm/\" target=\"_blank\" rel=\"noopener\">smoke detector<\/a> batteries."
+],
+[
+46,
+"<a href=\"https://www.nytimes.com/wirecutter/reviews/best-knife-sharpening-tool/\" target=\"_blank\" rel=\"noopener\">Sharpen<\/a> your kitchen knives."
+],
+[
+47,
+"<a href=\"https://www.nytimes.com/wirecutter/reviews/best-pocket-knife/#how-we-tested\" target=\"_blank\" rel=\"noopener\">Sharpen<\/a> your pocket knives. (Try it. It’s very meditative.)"
+],
+[
+48,
+"Pack a <a href=\"https://www.nytimes.com/wirecutter/reviews/best-gear-for-your-bug-out-bag/\" target=\"_blank\" rel=\"noopener\">go bag<\/a>, collect an <a href=\"https://www.nytimes.com/wirecutter/interactives/emergency-preparedness-kit-builder/\" target=\"_blank\" rel=\"noopener\">emergency kit<\/a>, and establish an <a href=\"https://www.nytimes.com/2025/08/22/well/disaster-plan-prep-hurricane-fire.html\" target=\"_blank\" rel=\"noopener\">emergency plan<\/a>."
+],
+[
+49,
+"Do some <a href=\"https://www.nytimes.com/wirecutter/reviews/the-original-nokbox-review/\" target=\"_blank\" rel=\"noopener\">end-of-life planning<\/a> for yourself or <a href=\"https://www.nytimes.com/2026/04/09/well/family/caregiving-elder-care-planning-family.html\" target=\"_blank\" rel=\"noopener\">a loved one<\/a>."
+],
+[
+50,
+"Schedule a <a href=\"https://www.nytimes.com/interactive/2026/well/brain-health-doctor-appointments.html\" target=\"_blank\" rel=\"noopener\">doctor appointment<\/a> you’ve been putting off."
+],
+[
+51,
+"Start <a href=\"https://www.nytimes.com/2024/12/07/well/move/physical-therapy-fitness.html\" target=\"_blank\" rel=\"noopener\">physical therapy<\/a> for an injury you’ve been ignoring."
+],
+[
+52,
+"Adopt a “<a href=\"https://www.nytimes.com/2026/07/18/well/grandma-hobbies-crafts-knitting-quilting.html\" target=\"_blank\" rel=\"noopener\">grandma hobby<\/a>.”"
+],
+[
+53,
+"Pick up <a href=\"https://www.nytimes.com/wirecutter/reviews/tom-daley-knitting-gear/\" target=\"_blank\" rel=\"noopener\">knitting<\/a> or another <a href=\"https://www.nytimes.com/wirecutter/reviews/best-fiber-craft-kits-for-adults/\" target=\"_blank\" rel=\"noopener\">fiber craft<\/a>, such as crochet, needlepoint, or cross-stitch."
+],
+[
+54,
+"<a href=\"https://www.nytimes.com/wirecutter/reviews/advice-buying-secondhand-clothing/\" target=\"_blank\" rel=\"noopener\">Alter or repurpose<\/a> ill-fitting or worn-out clothes."
+],
+[
+55,
+"<a href=\"https://www.nytimes.com/wirecutter/reviews/best-tie-dye-kits/\" target=\"_blank\" rel=\"noopener\">Tie-dye<\/a> something."
+],
+[
+56,
+"Learn <a href=\"https://www.nytimes.com/2025/08/19/science/origami-bloom-patterns.html\" target=\"_blank\" rel=\"noopener\">origami<\/a>."
+],
+[
+57,
+"Make <a href=\"https://www.nytimes.com/wirecutter/guides/friendship-bracelet-beads-supplies/\" target=\"_blank\" rel=\"noopener\">friendship bracelets<\/a>."
+],
+[
+58,
+"Learn to read <a href=\"https://www.nytimes.com/wirecutter/gifts/best-gifts-for-witchy-friend/\" target=\"_blank\" rel=\"noopener\">tarot<\/a> cards."
+],
+[
+59,
+"Learn <a href=\"https://www.nytimes.com/2022/12/13/opinion/teaching-cursive-handwriting.html\" target=\"_blank\" rel=\"noopener\">cursive<\/a>. Reward yourself with a <a href=\"https://www.nytimes.com/wirecutter/reviews/the-best-pen/\" target=\"_blank\" rel=\"noopener\">really great pen<\/a>."
+],
+[
+60,
+"Write <a href=\"https://www.nytimes.com/2019/10/29/fashion/weddings/dos-and-donts-of-thank-you-notes.html\" target=\"_blank\" rel=\"noopener\">thank-you notes<\/a> on <a href=\"https://www.nytimes.com/wirecutter/reviews/best-stationery/\" target=\"_blank\" rel=\"noopener\">beautiful stationery<\/a>."
+],
+[
+61,
+"Find an awesome new <a href=\"https://www.nytimes.com/2020/04/10/us/coronavirus-seniors-pen-pals.html\" target=\"_blank\" rel=\"noopener\">pen pal<\/a>."
+],
+[
+62,
+"Send a postcard to someone you love. Or, send a postcard to someone you dislike but with whom you’re willing to bury the hatchet."
+],
+[
+63,
+"Write in a <a href=\"https://www.nytimes.com/wirecutter/reviews/best-notebooks/\" target=\"_blank\" rel=\"noopener\">diary<\/a>, keep a “<a href=\"https://en.wikipedia.org/wiki/Commonplace_book\" target=\"_blank\" rel=\"noopener\">commonplace book<\/a>,” or start a <a href=\"https://www.nytimes.com/2025/09/01/style/junk-journaling.html\" target=\"_blank\" rel=\"noopener\">junk journal<\/a>."
+],
+[
+64,
+"<a href=\"https://www.nytimes.com/2023/08/16/realestate/pressed-flowers-plants.html\" target=\"_blank\" rel=\"noopener\">Press flowers<\/a>."
+],
+[
+65,
+"Build a <a href=\"https://www.nytimes.com/2016/07/18/nyregion/thumbelinas-secret-architect-creating-fairy-houses-on-a-new-jersey-trail.html\" target=\"_blank\" rel=\"noopener\">fairy house<\/a>."
+],
+[
+66,
+"Plant a <a href=\"https://www.nytimes.com/wirecutter/blog/oldcastle-wall-blocks-raised-garden-bed/\" target=\"_blank\" rel=\"noopener\">raised bed<\/a> or a <a href=\"https://www.nytimes.com/wirecutter/reviews/transforming-balcony-into-a-garden-oasis/\" target=\"_blank\" rel=\"noopener\">potted garden<\/a>."
+],
+[
+67,
+"Propagate <a href=\"https://www.nytimes.com/wirecutter/reviews/fill-your-home-with-plants-for-practically-no-money/\" target=\"_blank\" rel=\"noopener\">houseplants<\/a>."
+],
+[
+68,
+"Begin <a href=\"https://www.nytimes.com/wirecutter/reviews/best-beer-brewing-kit/\" target=\"_blank\" rel=\"noopener\">brewing beer<\/a> or <a href=\"https://www.nytimes.com/2019/06/19/magazine/how-to-make-kombucha.html\" target=\"_blank\" rel=\"noopener\">kombucha<\/a> at home."
+],
+[
+69,
+"Make your own <a href=\"https://cooking.nytimes.com/recipes/1024350-limoncello\" target=\"_blank\" rel=\"noopener\">limoncello<\/a>."
+],
+[
+70,
+"Concoct a <a href=\"https://www.nytimes.com/2026/05/10/style/dirty-soda-mormon-wives-utah-tiktok.html\" target=\"_blank\" rel=\"noopener\">dirty soda<\/a>."
+],
+[
+71,
+"Learn to make <a href=\"https://www.nytimes.com/wirecutter/reviews/milk-frothing-tips-advice/\" target=\"_blank\" rel=\"noopener\">latte art<\/a>."
+],
+[
+72,
+"<a href=\"https://www.nytimes.com/wirecutter/reviews/dazzle-dry-vs-olive-and-june-quick-dry-nail-polish/\" target=\"_blank\" rel=\"noopener\">Paint your nails<\/a> or try new <a href=\"https://www.nytimes.com/wirecutter/reviews/best-korean-skin-care-products/\" target=\"_blank\" rel=\"noopener\">skin care<\/a>."
+],
+[
+73,
+"Build a <a href=\"https://www.nytimes.com/wirecutter/reviews/best-lego-sets-for-kids/\" target=\"_blank\" rel=\"noopener\">Lego set<\/a> with loved ones."
+],
+[
+74,
+"Design a <a href=\"https://minifigs.me/?srsltid=AfmBOorP667sFro0rLuF5pEd3HRnW63dkEoILeCCRaSiIdmE8W_gopsq\" target=\"_blank\" rel=\"noopener\">Lego minifig<\/a> that looks like someone you love."
+],
+[
+75,
+"Play around with an <a href=\"https://www.nytimes.com/wirecutter/reviews/best-electronics-kits-for-kids-and-beginners/\" target=\"_blank\" rel=\"noopener\">electronics kit<\/a>."
+],
+[
+76,
+"Put together a teeny-tiny <a href=\"https://www.nytimes.com/wirecutter/reviews/mayberry-street-miniatures-diy-dollhouse-kit-review/\" target=\"_blank\" rel=\"noopener\">miniature kit<\/a>."
+],
+[
+77,
+"Design something to <a href=\"https://www.nytimes.com/wirecutter/reviews/best-home-3d-printer/\" target=\"_blank\" rel=\"noopener\">3D-print<\/a> and <a href=\"https://www.nytimes.com/wirecutter/blog/things-you-can-borrow-from-the-library/\" target=\"_blank\" rel=\"noopener\">head to your local library<\/a>’s makerlab to create it."
+],
+[
+78,
+"Head out with a <a href=\"https://www.nytimes.com/wirecutter/reviews/best-metal-detector/\" target=\"_blank\" rel=\"noopener\">metal detector<\/a> to search for <a href=\"https://www.nytimes.com/2026/08/29/us/ohio-lost-found-wedding-ring.html\" target=\"_blank\" rel=\"noopener\">buried treasure<\/a>."
+],
+[
+79,
+"<a href=\"https://www.nytimes.com/2026/04/14/arts/design/american-natural-history-museum-fossils.html\" target=\"_blank\" rel=\"noopener\">Dig for fossils<\/a> (or buy “fossils” and bury them)."
+],
+[
+80,
+"Take a <a href=\"https://www.nytimes.com/wirecutter/reviews/best-telescopes-for-beginners/\" target=\"_blank\" rel=\"noopener\">telescope<\/a> out for some stargazing."
+],
+[
+81,
+"Go on a scavenger hunt. (IKEA is a great place for this.)"
+],
+[
+82,
+"Learn to use a <a href=\"https://www.nytimes.com/wirecutter/reviews/hasselblad-x2d-ii-100c-review/\" target=\"_blank\" rel=\"noopener\">fancy camera<\/a> or a <a href=\"https://www.nytimes.com/wirecutter/reviews/beginners-guide-to-shooting-film/\" target=\"_blank\" rel=\"noopener\">film camera<\/a>."
+],
+[
+83,
+"Go for a <a href=\"https://www.nytimes.com/2025/10/06/style/hiking-shawty-social-media.html\" target=\"_blank\" rel=\"noopener\">photo walk<\/a>. (Choose a theme, or make it a scavenger hunt.)"
+],
+[
+84,
+"Find a local <a href=\"https://www.nytimes.com/2026/08/03/travel/public-land-hikes-blm-forest-service.html\" target=\"_blank\" rel=\"noopener\">awe-inspiring spot<\/a> to explore."
+],
+[
+85,
+"Go for a <a href=\"https://www.nytimes.com/wirecutter/lists/most-popular-hiking-picks/\" target=\"_blank\" rel=\"noopener\">hike<\/a>."
+],
+[
+86,
+"Go on a <a href=\"https://www.nytimes.com/2021/05/11/realestate/five-best-picnic-items.html\" target=\"_blank\" rel=\"noopener\">picnic<\/a>."
+],
+[
+87,
+"Go <a href=\"https://www.nytimes.com/wirecutter/reviews/alexis-nikole-nelson-favorite-foraging-gear/\" target=\"_blank\" rel=\"noopener\">foraging<\/a>. (Take along <a href=\"https://www.nytimes.com/wirecutter/out/affiliate/v1/Amazon/56578/191868/4/link/e8a8ceaadd55447f966d7da7844c01ed/?dp=eyJyZWYiOiJhcHAucmFpbmRyb3AuaW8vIn0\" target=\"_blank\" rel=\"noopener\">Sam Thayer’s Field Guide to Edible Wild Plants<\/a>.)"
+],
+[
+88,
+"Go <a href=\"https://www.nytimes.com/wirecutter/reviews/bird-watching-gear-equipment/\" target=\"_blank\" rel=\"noopener\">birding<\/a>. (<a href=\"https://www.nytimes.com/wirecutter/reviews/sean-bean-birdwatching-tips/\" target=\"_blank\" rel=\"noopener\">Sean Bean<\/a> has some tips.)"
+],
+[
+89,
+"<a href=\"https://www.nytimes.com/article/start-garden-tips-advice.html\" target=\"_blank\" rel=\"noopener\">Ask a native gardener<\/a> about their plants."
+],
+[
+90,
+"Ask a farmer about their favorite produce."
+],
+[
+91,
+"Ask a trainspotter about their favorite engine."
+],
+[
+92,
+"Ask a car aficionado about their favorite automobile."
+],
+[
+93,
+"Purchase the cheapest ticket to a baseball game and just wander around the park."
+],
+[
+94,
+"Visit a local museum or history center (the <a href=\"https://www.nytimes.com/2019/03/12/arts/lesser-known-museums-nyc.html\" target=\"_blank\" rel=\"noopener\">more niche<\/a>, the better)."
+],
+[
+95,
+"Find a <a href=\"https://www.nytimes.com/2025/05/22/travel/drive-in-theaters-america.html\" target=\"_blank\" rel=\"noopener\">drive-in<\/a> movie theater."
+],
+[
+96,
+"Introduce yourself to a neighbor."
+],
+[
+97,
+"Organize a block party <a href=\"https://www.nytimes.com/2026/04/27/opinion/the-prepper-delusion.html\" target=\"_blank\" rel=\"noopener\">with your neighbors<\/a>."
+],
+[
+98,
+"Host an analog night. Invite family and friends to bring over books and magazines, <a href=\"https://www.nytimes.com/wirecutter/reviews/best-turntable/\" target=\"_blank\" rel=\"noopener\">listen to vinyl<\/a>, or <a href=\"https://www.nytimes.com/wirecutter/reviews/philips-pld2000-dvd-player-review/\" target=\"_blank\" rel=\"noopener\">watch a DVD<\/a>. (You can check out DVDs from the library!)"
+],
+[
+99,
+"Plan a <a href=\"https://www.nytimes.com/2026/07/13/theater/murder-mystery-audrey-gelman-wing.html\" target=\"_blank\" rel=\"noopener\">murder-mystery party<\/a>."
+],
+[
+100,
+"<a href=\"https://www.nytimes.com/2025/07/04/well/better-parties-tips.html\" target=\"_blank\" rel=\"noopener\">Throw a party<\/a> for any other reason. (Or, for no reason at all.)"
+],
+[
+101,
+"Memorize some magic tricks to perform or jokes to tell at parties."
+],
+[
+102,
+"Plan a <a href=\"https://www.nytimes.com/interactive/2026/travel/places-to-travel-destinations-2026.html\" target=\"_blank\" rel=\"noopener\">fantasy trip<\/a>."
+],
+[
+103,
+"Watch a <a href=\"https://www.youtube.com/playlist?list=PL2gsu7VGzgdYlW4qQYrQW1nJvVpSUKkGZ\" target=\"_blank\" rel=\"noopener\">silent film<\/a>."
+],
+[
+104,
+"Make a <a href=\"https://www.nytimes.com/wirecutter/reviews/best-vlogging-cameras/\" target=\"_blank\" rel=\"noopener\">silent film<\/a>."
+],
+[
+105,
+"Create a <a href=\"https://www.nytimes.com/2017/02/28/magazine/why-the-internet-didnt-kill-zines.html\" target=\"_blank\" rel=\"noopener\">zine<\/a>."
+],
+[
+106,
+"Stick <a href=\"https://www.nytimes.com/2025/01/26/us/googly-eyes-sculptures-oregon.html\" target=\"_blank\" rel=\"noopener\">googly eyes<\/a> on things. (Maybe not on public monuments.)"
+],
+[
+107,
+"Learn about <a href=\"https://www.nytimes.com/2023/03/28/science/lightning-rod-video.html\" target=\"_blank\" rel=\"noopener\">lightning<\/a>."
+],
+[
+108,
+"Research the driest desert in the world."
+],
+[
+109,
+"Find the most delicious <a href=\"https://cooking.nytimes.com/topics/desserts\" target=\"_blank\" rel=\"noopener\">dessert<\/a> in the world."
+],
+[
+110,
+"Refine your debate skills."
+],
+[
+111,
+"Make up an outrageous lie."
+],
+[
+112,
+"Back a car into a driveway without hitting the house."
+],
+[
+113,
+"Listen to a piece of music you’ve never heard before."
+],
+[
+114,
+"Rewrite the ending to a book/play/movie/TV show that disappointed you."
+],
+[
+115,
+"Watch <a href=\"https://www.nytimes.com/2020/01/07/arts/television/schitts-creek-final-season.html\" target=\"_blank\" rel=\"noopener\">Schitt’s Creek<\/a> for the first time, or the fiftieth time."
+],
+[
+116,
+"Watch Bluey’s “<a href=\"https://www.bluey.tv/watch/season-1/the-creek/\" target=\"_blank\" rel=\"noopener\">The Creek<\/a>” (Season 1, Episode 29). It’s literally about playing outside."
+],
+[
+117,
+"Do an <a href=\"https://www.nytimes.com/2026/01/12/well/how-to-improve-focus-and-attention-span.html\" target=\"_blank\" rel=\"noopener\">attention audit<\/a>."
+],
+[
+118,
+"<a href=\"https://www.nytimes.com/2019/04/29/smarter-living/the-case-for-doing-nothing.html\" target=\"_blank\" rel=\"noopener\">Do nothing<\/a>."
+]
+];
+
+// Shuffle-bag: every idea appears once before any repeats.
+let bag = [];
+function next() {
+  if (bag.length === 0) {
+    bag = IDEAS.map((_, i) => i);
+    for (let i = bag.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [bag[i], bag[j]] = [bag[j], bag[i]];
+    }
+  }
+  return IDEAS[bag.pop()];
+}
+
+document.getElementById('go').addEventListener('click', () => {
+  const [n, html] = next();
+  document.getElementById('num').textContent = `#${n} of ${IDEAS.length}`;
+  document.getElementById('idea').innerHTML = html;
+});
+</script>
+</body>
+</html>
