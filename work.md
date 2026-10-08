@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Work
-description: These are my Data Engineering pages
+description: Bluesky Thinker..Anyone?!
 image: assets/images/pic11.jpeg
 nav-menu: true
 ---
@@ -13,17 +13,19 @@ I'm a consultant working in Data. A hands-on Lead Engineer, building skilled, pr
 - All your usual Azure Data skills ranging from Fabric (and all that entails), Azure Synapse and Data Factory, ADLS to integration type resources such as Logic and Function Apps.
 - Very much an Agile person, with all the usual disciplines and ceremonies.
 - Managing a team, resource management and upskilling/training.
-- Customer management, leading technical calls. 
-  
+- Customer management, leading technical calls.
+- Enabling the safe, standardised and effective use multiple AI models using Github Copilot and Claude Code.
+   
 ## Projects
--  Traditional datalake -> data warehouse using medallion structure across a 3 or 4 environment structure.
+-  Traditional ingestion, data cleansing to data warehouse using medallion structure across a 3 or 4 environment structure.
 -  Data integrations.
 -  Purview and Master data management.
--  PoC development supporting customers grow their skills and understanding.
+-  PoC development enabling customers to grow their skills and understanding.
   
 ## Experience
 - Led multiple engineering teams.
 - Delivered multiple consecutive projects, often against tight timelines and limited resources.
 -  Worked across many verticals, including health, local council, financial and NPO.
 
-*You can find my CV <a href="https://www.linkedin.com/in/jim-bowery-a9343625/">here<a/> and my LinkedIn <a href="https://drive.google.com/file/d/1hKZIN5XrSFV2xw2eOV1KtQYxdpDMtXLp/view?usp=drivesdk">here</a>*
+
+> You can find my CV <a href="https://www.linkedin.com/in/jim-bowery-a9343625/">here<a/> and my LinkedIn <a href="https://drive.google.com/file/d/1hKZIN5XrSFV2xw2eOV1KtQYxdpDMtXLp/view?usp=drivesdk">here</a>
