@@ -1,7 +1,7 @@
 ---
 layout: post
-title: Aliquam
-description: Ipsum dolor sit amet
+title: Get your life back
+description: Defritter - stop frittering
 image: assets/images/doomscroll.jpg
 ---
 
