@@ -28,4 +28,4 @@ I'm a consultant working in Data. A hands-on Lead Engineer, fearlessly building 
 -  Worked across many verticals, including health, local council, financial and NPO.
 
 
-> You can find my CV <a href="https://www.linkedin.com/in/jim-bowery-a9343625/">here<a/> and my LinkedIn <a href="https://drive.google.com/file/d/1hKZIN5XrSFV2xw2eOV1KtQYxdpDMtXLp/view?usp=drivesdk">here</a>
+> You can find my LinkedIn <a href="https://www.linkedin.com/in/jim-bowery-a9343625/">here<a/> and my CV <a href="https://drive.google.com/file/d/1hKZIN5XrSFV2xw2eOV1KtQYxdpDMtXLp/view?usp=drivesdk">here</a>
