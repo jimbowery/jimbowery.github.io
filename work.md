@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Work
-description: Bluesky Thinker..Anyone?!
+description: Avoiding the consultancy sharks
 image: assets/images/pic11.jpeg
 nav-menu: true
 ---
