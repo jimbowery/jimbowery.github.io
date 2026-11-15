@@ -1,6 +1,6 @@
 ---
 layout: photo-post
-title: Portsmouth Harbour
+title: portsmouth harbour
 description: jimstagram
 image: assets/images/jimsta/portsmouth-harbour.jpeg
 ---
