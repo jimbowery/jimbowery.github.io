@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Late Summer
+title: late summer
 description: cider in the sun
 image: assets/images/glass-on-mosaic.jpeg
 ---
