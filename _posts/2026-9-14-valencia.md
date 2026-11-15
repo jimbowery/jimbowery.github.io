@@ -1,7 +1,7 @@
 ---
 layout: post
-title: Valencia
-description: City of Arts and Sciences
+title: valencia
+description: city of arts and sciences
 image: assets/images/valencia02.jpeg
 ---
 
