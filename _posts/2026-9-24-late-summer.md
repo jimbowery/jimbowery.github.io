@@ -1,5 +1,5 @@
 ---
-layout: photo-post
+layout: post
 title: Late Summer
 description: cider in the sun
 image: assets/images/glass-on-mosaic.jpeg
