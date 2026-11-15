@@ -4,4 +4,4 @@ _site/
 Gemfile.lock
 *.gem
 .jekyll-cache
-assets/images/jimsta
+assets/images/jimsta/
