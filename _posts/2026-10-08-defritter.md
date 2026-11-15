@@ -1,7 +1,7 @@
 ---
 layout: post
-title: Get your life back
-description: Defritter - stop frittering
+title: get your life back
+description: defritter - stop frittering
 image: assets/images/doomscroll.jpg
 ---
 
