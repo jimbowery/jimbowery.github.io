@@ -1,7 +1,7 @@
 ---
 layout: post
-title: Somerset Art Weeks
-description: Artist and Makers in Somerset
+title: somerset art weeks
+description: artist and makers in somerset
 image: assets/images/SAW_Rabbit.jpeg
 ---
 
