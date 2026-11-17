@@ -25,14 +25,14 @@
 
 <body>
 
-    {% include head.html %} 
+    {% include header.html %} 
     
 <!-- Main -->
 <div id="main" class="alt">
 
 <!-- One -->
 <section id="one">
-	<div class="inner">
+	<div class="inner post-inner">
 		{% if page.image %}<span class="image main photo-frame"><img src="{{ site.baseurl }}/{{ page.image }}" alt="{{ page.title }}" /></span>{% endif %}
 		<header class="major">
 			<h1>{{ page.title }}</h1>
