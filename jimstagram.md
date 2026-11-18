@@ -3,7 +3,7 @@ layout: tagged-posts
 title: Jimstagram
 landing-title: 'Jimstagram'
 nav-menu: true
-description: Photography collection
+description:
 image: null
 filter-tag: jimstagram
 show_tile: false
