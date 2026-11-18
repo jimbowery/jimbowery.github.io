@@ -25,3 +25,4 @@ Art in beautiful locations.
 </div>
 
 Somerset Art Weeks has been running for over 30 years. It is run by the arts charity Somerset Art Works (SAW) and happens every autumn over about two weeks, alternating each year between Open Studios and Exhibitions + Events. In Open Studios years, SAW members open their studios to the public, and there are demonstrations and activities such as Family Friendly Weekends. In Festival years, group shows, commissions and themed projects appear across the county. This year there were over 100 sites open.
+<p>..and you get to wander through other people's gardens</p>
