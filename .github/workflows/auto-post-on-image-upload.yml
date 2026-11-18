@@ -55,7 +55,7 @@ jobs:
           ---
           layout: photo-post
           title: ${title}
-          description:jimstagram
+          description: jimstagram
           image: ${file}
           tags: [jimstagram]
           ---
