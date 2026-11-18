@@ -22,6 +22,7 @@ jobs:
         run: |
           # Get the list of added files in assets/images/jimsta/
           FILES=$(git diff --name-only --diff-filter=A HEAD~1 HEAD | grep '^assets/images/jimsta/' || true)
+          echo "Added image files: [$FILES]"
           echo "files=$FILES" >> $GITHUB_OUTPUT
 
       - name: Create post for new image
@@ -65,7 +66,8 @@ jobs:
 
       - name: Commit and push post
         run: |
-          if git diff --quiet --exit-code; then
+          git status --short
+          if [ -z "$(git status --porcelain _posts/)" ]; then
             echo "No changes to commit"
             exit 0
           fi
