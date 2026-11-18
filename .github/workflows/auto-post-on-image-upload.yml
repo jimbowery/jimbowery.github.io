@@ -48,7 +48,7 @@ jobs:
             fi
             
             # Create the post with title from filename (convert hyphens/underscores to spaces)
-            title=$(echo "$filename_no_ext" | sed 's/[-_]/ /g' | sed 's/\b\(\.\)/\U\1/g')
+            title=$(echo "$filename_no_ext" | sed 's/[-_]/ /g' | sed 's/\b\(.)/\U\1/g')
             
             cat > "$post_filename" << EOF
 ---
