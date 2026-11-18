@@ -11,6 +11,12 @@ on:
   push:
     branches: ["master"]
 
+  # Deploy after the image workflow has generated its post
+  workflow_run:
+    workflows: ["Auto-create Photo Post on Image Upload"]
+    types: [completed]
+    branches: ["master"]
+
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -27,12 +33,43 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  route:
+    runs-on: ubuntu-latest
+    outputs:
+      deploy: ${{ steps.route.outputs.deploy }}
+    steps:
+      - name: Decide whether to deploy
+        id: route
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          WORKFLOW_CONCLUSION: ${{ github.event.workflow_run.conclusion }}
+        run: |
+          if [[ "$EVENT_NAME" == "workflow_run" ]]; then
+            if [[ "$WORKFLOW_CONCLUSION" == "success" ]]; then
+              echo "deploy=true" >> "$GITHUB_OUTPUT"
+            else
+              echo "deploy=false" >> "$GITHUB_OUTPUT"
+            fi
+            exit 0
+          fi
+
+          has_photo_path=$(jq -r '[.commits[]? | (.added[]?, .modified[]?, .removed[]?)] | any(startswith("assets/images/jimsta/"))' "$GITHUB_EVENT_PATH")
+          if [[ "$has_photo_path" == "true" ]]; then
+            echo "deploy=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "deploy=true" >> "$GITHUB_OUTPUT"
+          fi
+
   # Build job
   build:
+    needs: route
+    if: ${{ needs.route.outputs.deploy == 'true' }}
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: master
       - name: Setup Ruby
         # https://github.com/ruby/setup-ruby/releases/tag/v1.207.0
         uses: ruby/setup-ruby@4a9ddd6f338a97768b8006bf671dfbad383215f4
@@ -49,7 +86,7 @@ jobs:
         env:
           JEKYLL_ENV: production
       - name: Upload artifact
-        # Automatically uploads an artifact from the './_site' directory by default
+        # Automatically uploads the artifact from './_site' directory by default
         uses: actions/upload-pages-artifact@v3
 
   # Deployment job
