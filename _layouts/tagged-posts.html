@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<!--
+	Forty by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+
+{% include head.html %}
+
+<style>
+	.tagged-grid {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		gap: 20px;
+		margin-top: 30px;
+	}
+	
+	.tagged-grid article {
+		position: relative;
+		overflow: hidden;
+		border-radius: 8px;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+		transition: transform 0.3s ease, box-shadow 0.3s ease;
+	}
+	
+	.tagged-grid article:hover {
+		transform: translateY(-5px);
+		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+	}
+	
+	.tagged-grid article span.image {
+		display: block;
+		width: 100%;
+		height: 300px;
+		overflow: hidden;
+	}
+	
+	.tagged-grid article img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		transition: transform 0.3s ease;
+	}
+	
+	.tagged-grid article:hover img {
+		transform: scale(1.05);
+	}
+	
+	.tagged-grid header {
+		padding: 15px;
+		background-color: white;
+	}
+	
+	.tagged-grid header h3 {
+		margin: 0 0 10px 0;
+		font-size: 1.1em;
+	}
+	
+	.tagged-grid header p {
+		margin: 0;
+		font-size: 0.9em;
+		color: #666;
+	}
+	
+	.tagged-grid a {
+		color: inherit;
+		text-decoration: none;
+	}
+	
+	.tagged-grid a:hover {
+		color: #333;
+	}
+	
+	/* Responsive grid */
+	@media (max-width: 1200px) {
+		.tagged-grid {
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
+	
+	@media (max-width: 768px) {
+		.tagged-grid {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+	
+	@media (max-width: 480px) {
+		.tagged-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>
+
+<body>
+
+	{% include header.html %}
+	
+	<!-- Main -->
+	<div id="main" class="alt">
+
+		<!-- One -->
+		<section id="one">
+			<div class="inner">
+				<header class="major">
+					<h1>{{ page.title }}</h1>
+				</header>
+				{% if page.description %}
+				<p>{{ page.description }}</p>
+				{% endif %}
+				
+				<div class="tagged-grid">
+					{% for post in site.posts %}
+						{% if post.tags contains page.filter-tag %}
+							<article>
+								{% if post.image %}
+								<span class="image">
+									<img src="{{ site.baseurl }}/{{ post.image }}" alt="{{ post.title }}" />
+								</span>
+								{% endif %}
+								<header>
+									<h3><a href="{{ post.url | relative_url }}" class="link">{{ post.title }}</a></h3>
+								</header>
+							</article>
+						{% endif %}
+					{% endfor %}
+				</div>
+			</div>
+		</section>
+
+	</div>
+
+	{% include footer.html %}
+
+</body>
+
+</html>

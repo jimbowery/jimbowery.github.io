@@ -56,6 +56,7 @@ layout: photo-post
 title: ${title}
 description: 
 image: ${file}
+tags: []
 ---
 EOF
             

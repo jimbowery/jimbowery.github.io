@@ -21,6 +21,29 @@
 		max-width: 100%;
 		height: auto;
 	}
+	
+	.post-tags {
+		margin-top: 20px;
+		margin-bottom: 20px;
+	}
+	
+	.post-tags .tag {
+		display: inline-block;
+		background-color: #f0f0f0;
+		color: #333;
+		padding: 6px 12px;
+		margin-right: 8px;
+		margin-bottom: 8px;
+		border-radius: 20px;
+		font-size: 0.9em;
+		text-decoration: none;
+		transition: all 0.3s ease;
+	}
+	
+	.post-tags .tag:hover {
+		background-color: #333;
+		color: white;
+	}
 </style>
 
 <body>
@@ -37,6 +60,13 @@
 		<header class="major">
 			<h1>{{ page.title }}</h1>
 		</header>
+		{% if page.tags %}
+		<div class="post-tags">
+			{% for tag in page.tags %}
+				<a href="{{ site.baseurl }}/tags/#{{ tag | slugify }}" class="tag">{{ tag }}</a>
+			{% endfor %}
+		</div>
+		{% endif %}
 	</div>
 </section>
 
