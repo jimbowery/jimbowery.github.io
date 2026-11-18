@@ -55,9 +55,9 @@ jobs:
           ---
           layout: photo-post
           title: ${title}
-          description:
+          description:jimstagram
           image: ${file}
-          tags: []
+          tags: [jimstagram]
           ---
           EOF
             
